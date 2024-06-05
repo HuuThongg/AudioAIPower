@@ -12,7 +12,7 @@ const Discover = ({ searchParams: { search } }: { searchParams: { search: string
   const podcastsData = useQuery(api.podcasts.getPodcastBySearch, { search: search || '' })
 
   return (
-    <div className="flex flex-col gap-9">
+    <div className="flex flex-col gap-9 px-10">
       <Searchbar />
       <div className="flex flex-col gap-9">
         <h1 className="text-20 font-bold text-white-1">

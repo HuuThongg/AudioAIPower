@@ -17,7 +17,7 @@ const MobileNav = () => {
   const pathname = usePathname();
 
   return (
-    <section>
+    <section className="flex lg:hidden">
       <Sheet>
         <SheetTrigger>
           <Image src="/icons/hamburger.svg" width={30} height={30} alt="menu" className="cursor-pointer" />
