@@ -1,4 +1,11 @@
-import { Song } from '@/types'
-import { atom } from 'jotai'
 
-export const songDetail = atom<Song | null>(null)
+import { AudioProps, Song } from '@/types'
+import { atom, createStore, useAtomValue, useSetAtom } from 'jotai'
+const playlistAtom = atom<Song[]>([])
+const currentAudioAtom = atom<AudioProps | null>(null)
+const songDetail = atom<Song | null>(null)
+export {
+  playlistAtom,
+  currentAudioAtom,
+  songDetail,
+}

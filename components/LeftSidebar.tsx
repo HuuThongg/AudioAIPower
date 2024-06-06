@@ -26,10 +26,10 @@ const LeftSidebar = () => {
         {sidebarLinks.map(({ route, label, imgURL }) => {
           const isActive = pathname === route || pathname.startsWith(`${route}/`);
 
-          return <Link href={route} key={label} className={cn("flex gap-3  items-center py-4 pl-4 max-lg:px-4 justify-start lg:justify-start", {
-            'bg-nav-focus border-r-4 border-orange-1 ': isActive
+          return <Link href={route} key={label} className={cn("flex gap-3  items-center py-4 pl-4 max-lg:px-4 justify-start lg:justify-start ", {
+            'bg-nav-focus border-r-4 border-orange-1  font-semibold': isActive
           })}>
-            <Image src={imgURL} alt={label} width={24} height={24} />
+            <Image src={imgURL} alt={label} width={24} height={24} className='' />
             <p>{label}</p>
           </Link>
         })}

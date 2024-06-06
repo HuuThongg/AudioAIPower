@@ -3,13 +3,12 @@ import Image from "next/image"
 import Link from "next/link"
 import SongInteraction from "./SongInteraction"
 import { useAtomValue } from "jotai"
-import { songDetail } from "@/lib/jotai"
-import { useAudio } from "@/providers/AudioProvider"
+import { currentAudioAtom, songDetail } from "@/lib/jotai"
 import { usePathname } from "next/navigation"
 import RightSidebar from "./RightSidebar"
 export default function SongDetail() {
   const song = useAtomValue(songDetail)
-  const { audio } = useAudio()
+  const audio = useAtomValue(currentAudioAtom)
   const pathname = usePathname()
   if (!pathname.includes("create-music")) {
     return <RightSidebar />

@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { api } from "@/convex/_generated/api";
-import { useAudio } from '@/providers/AudioProvider';
 import { PodcastDetailPlayerProps } from "@/types";
 
-import LoaderSpinner from "./LoaderSpinner";
-import { Button } from "./ui/button";
-import { useToast } from "./ui/use-toast";
+import { useSetAtom } from "jotai";
+import { currentAudioAtom } from "@/lib/jotai";
+import LoaderSpinner from "../LoaderSpinner";
+import { useToast } from "./use-toast";
+import { Button } from "./button";
 
 const PodcastDetailPlayer = ({
   audioUrl,
@@ -25,7 +26,7 @@ const PodcastDetailPlayer = ({
   authorId,
 }: PodcastDetailPlayerProps) => {
   const router = useRouter();
-  const { setAudio } = useAudio();
+  const setAudio = useSetAtom(currentAudioAtom);
   const { toast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
   const deletePodcast = useMutation(api.podcasts.deletePodcast);

@@ -2,20 +2,21 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useAudio } from "@/providers/AudioProvider";
 import { PodcastProps, ProfileCardProps } from "@/types";
 
 import LoaderSpinner from "./LoaderSpinner";
 import { Button } from "./ui/button";
+import { useSetAtom } from "jotai";
+import { currentAudioAtom } from "@/lib/jotai";
 
 const ProfileCard = ({
   podcastData,
   imageUrl,
   userFirstName,
 }: ProfileCardProps) => {
-  const { setAudio } = useAudio();
 
   const [randomPodcast, setRandomPodcast] = useState<PodcastProps | null>(null);
+  const setAudio = useSetAtom(currentAudioAtom)
 
   const playRandomPodcast = () => {
     const randomIndex = Math.floor(Math.random() * podcastData.podcasts.length);

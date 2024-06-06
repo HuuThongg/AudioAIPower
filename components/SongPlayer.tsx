@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { formatTime } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
-import { useAudio } from "@/providers/AudioProvider";
 
 import { Progress } from "./ui/progress";
+import { currentAudioAtom, playlistAtom } from "@/lib/jotai";
+import { useAtom, useAtomValue } from "jotai";
 const SongPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,8 +16,33 @@ const SongPlayer = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isRepeat, setIsRepeat] = useState(false)
-  const { audio } = useAudio();
-
+  const [volume, setVolume] = useState(0.5);
+  const [audio, setAudio] = useAtom(currentAudioAtom)
+  const playListData = useAtomValue(playlistAtom)
+  const getNextSong = () => {
+    const currentIndex = playListData.findIndex(song => song.audio_url === audio?.audioUrl)
+    const nextIndex = (currentIndex + 1) % playListData.length
+    const nextSong = playListData[nextIndex]
+    setAudio({
+      audioUrl: nextSong.audio_url,
+      title: nextSong.title,
+      author: nextSong.tags,
+      imageUrl: nextSong.image_url,
+      songId: nextSong.id
+    })
+  }
+  const getPrevSong = () => {
+    const currentIndex = playListData.findIndex(song => song.audio_url === audio?.audioUrl)
+    const nextIndex = (currentIndex - 1) % playListData.length
+    const nextSong = playListData[nextIndex]
+    setAudio({
+      audioUrl: nextSong.audio_url,
+      title: nextSong.title,
+      author: nextSong.tags,
+      imageUrl: nextSong.image_url,
+      songId: nextSong.id
+    })
+  }
   const togglePlayPause = () => {
     if (audioRef.current?.paused) {
       audioRef.current?.play();
@@ -35,6 +61,7 @@ const SongPlayer = () => {
   };
 
   const forward = () => {
+    // getNextSong()
     if (
       audioRef.current &&
       audioRef.current.currentTime &&
@@ -89,6 +116,7 @@ const SongPlayer = () => {
     }
   };
 
+
   const handleAudioEnded = () => {
     if (isRepeat && audioRef.current) {
       setCurrentTime(0)
@@ -102,6 +130,7 @@ const SongPlayer = () => {
       setIsPlaying(false);
     }
   };
+
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("handleSliderChange")
@@ -120,17 +149,31 @@ const SongPlayer = () => {
   };
   const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const volume = parseFloat(event.target.value);
+    setVolume(volume)
     if (audioRef.current) {
       audioRef.current.volume = volume;
     }
   };
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume; // Set the initial volume when the component mounts
+    }
+  }, [volume]);
+
+  let volumeIconSrc = "/icons/smallVolume.svg"; // default icon
+  if (isMuted || (!isMuted && volume === 0)) {
+    volumeIconSrc = "/icons/muteVolume.svg";
+  } else if (volume > 0.5) {
+    volumeIconSrc = "/icons/largeVolume.svg";
+  }
+
   return (
 
     <div className='flex items-center z-50 border-t border-t-[#222222] bg-bg text-white-1'>
       <div className='flex flex-col items-stretch gap-2 px-4 py-2 w-full h-full lg:flex-row justify-between'>
         {audio ? (
           <div className='flex flex-row flex-1 md:grow-0 items-center justify-stretch lg:justify-between w-full gap-2'>
-            <Image src="https://cdn1.suno.ai/image_a8d06999-b205-4a9f-9ad3-da5054e25bee.png" alt="song image" className='p-2 pr-1 block max-w-full   aspect-square' width={56} height={56} />
+            <Image src={audio.imageUrl} alt="song image" className='p-2 pr-1 block max-w-full   aspect-square' width={56} height={56} />
             <div className='flex flex-col gap-1 flex-1 min-w-[150px] max-w-[150px]'>
               <Link href={`/song/${audio?.songId}`} className='outline outline-2 outline-transparent  text-xs font-bold w-full'>{audio?.title}</Link>
               <p className='text-sm-text text-xs w-full line-clamp-1'>{audio?.author}</p>
@@ -152,6 +195,10 @@ const SongPlayer = () => {
             </div>
           </div>
         ) : null}
+        {!audio && (
+
+          <div className={cn("flex flex-row shrink-0 grow-0 basis-[240px]")}></div>
+        )}
         <div className='flex items-center px-3  '>
           <audio
             ref={audioRef}
@@ -170,8 +217,7 @@ const SongPlayer = () => {
               <button className='inline-flex appearance-none items-center justify-center select-none relative outline-2 outline-offset-2 outline-transparent h-[2rem] min-w-[2rem] bg-zinc-800 hover:bg-zinc-600 p-2 rounded-full'>
                 <Image
                   src={isPlaying ? "/icons/Pause.svg" : "/icons/Play.svg"}
-                  width={30}
-                  height={30}
+                  fill
                   alt="play"
                   onClick={togglePlayPause}
                 />
@@ -185,7 +231,7 @@ const SongPlayer = () => {
             {/*progres*/}
             <div className="flex px-3 md:px-4 flex-1 w-full  md:max-w-[550px]">
 
-              <Progress className="w-full min-w-[150px]" max={duration} value={(currentTime / duration) * 100} onInput={handleSliderInput} onClick={() => console.log("onclick")} onChange={handleSliderChange} >
+              <Progress className="w-full min-w-[50px] md:min-w-[150px]" max={duration} value={(currentTime / duration) * 100} onInput={handleSliderInput} onClick={() => console.log("onclick")} onChange={handleSliderChange} >
 
               </Progress>
             </div>
@@ -203,15 +249,18 @@ const SongPlayer = () => {
             </div>
           </div>
         </div>
-        <div className="hidden lg:flex shrink-0 grow-0 md:basis-[140px] lg:basis-[240px] justify-end ">
-          <button onClick={toggleMute}> muted</button>
+        <div className="hidden lg:flex shrink-0 grow-0 md:basis-[140px] justify-end gap-2 items-center">
+          <button onClick={toggleMute} className="text-white-1 fill-white-1 bg-red-400">
+            <Image className="text-white-1 fill-white-1 fill-red-800 white-svg stroke-sky-50 bg-blue-400" src={volumeIconSrc} alt="Volume Icon" width={16} height={16} />
+          </button>
 
           <input
+            className=" max-w-[70px] mr-auto volume-slider"
             type="range"
             min="0"
             max="1"
             step="0.1"
-            defaultValue="1" // Set default volume to maximum
+            defaultValue={volume} // Set default volume to maximum
             onChange={handleVolumeChange}
           />
         </div>

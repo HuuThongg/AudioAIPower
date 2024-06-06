@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { formatTime } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
-import { useAudio } from "@/providers/AudioProvider";
 
 import { Progress } from "./ui/progress";
+import { useAtomValue } from "jotai";
+import { currentAudioAtom } from "@/lib/jotai";
 
 const PodcastPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -15,7 +16,7 @@ const PodcastPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const { audio } = useAudio();
+  const audio = useAtomValue(currentAudioAtom);
 
   const togglePlayPause = () => {
     if (audioRef.current?.paused) {

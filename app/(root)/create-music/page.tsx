@@ -1,19 +1,17 @@
 "use client"
 import CreateSong from '@/components/CreateSong'
-import MobileNav from '@/components/MobileNav'
 import { SongCard } from '@/components/SongCard'
 import SongDetail from '@/components/SongDetail'
-import SongInteraction from '@/components/SongInteraction'
-import { getMySongs } from '@/lib/SunoAction'
+import { useToast } from '@/components/ui/use-toast'
+import { playlistAtom } from '@/lib/jotai'
 import { cn } from '@/lib/utils'
 import { Song } from '@/types'
 import axios from 'axios'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useSetAtom } from 'jotai'
 import React from 'react'
 
 const baseUrl = 'http://localhost:3000'; // Assuming backend API is running on this port
-async function getSongsData() {
+async function getSongsData(): Promise<Song[] | null> {
   try {
     const url = `${baseUrl}/api/get`;
     const response = await axios.get(url, {
@@ -30,10 +28,18 @@ async function getSongsData() {
 }
 export default function CreateMusic() {
   const [songs, setSongs] = React.useState<Song[]>([]); // State to store songs
+  const setPlaylist = useSetAtom(playlistAtom)
+  const { toast } = useToast();
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await getSongsData();
-      setSongs(data);
+      if (data !== null) {
+
+        setPlaylist(data)
+        setSongs(data);
+      } else {
+        toast({ title: 'Error fetching songs' })
+      }
     };
 
     fetchData();

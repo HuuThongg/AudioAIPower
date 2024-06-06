@@ -228,3 +228,94 @@ html {
 .cl-internal-wkkub3 {
   color: #f97535;
 }
+.volume-slider {
+  -webkit-appearance: none; /* Remove default styling */
+  appearance: none;
+  width: 100%; /* Full width */
+  height: 8px; /* Height of the track */
+  background: transparent; /* Track color */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency */
+  transition: opacity 0.2s; /* Transition for smooth interaction */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.volume-slider:hover {
+  opacity: 1; /* Full opacity on hover */
+}
+
+/* Track */
+.volume-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  background: gray; /* Color of the filled track */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.volume-slider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  background: gray;
+  border-radius: 4px;
+}
+
+.volume-slider::-ms-track {
+  width: 100%;
+  height: 6px;
+  background: transparent; /* Hide the track */
+  border-color: transparent;
+  border-width: 6px 0;
+  color: transparent;
+}
+
+/* Thumb */
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px;
+  width: 15px; /* Width of the thumb */
+  height: 15px; /* Height of the thumb */
+  background: white; /* Thumb color */
+  border-radius: 50%; /* Rounded thumb */
+  cursor: pointer; /* Pointer cursor */
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #ff0000;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.volume-slider::-ms-thumb {
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: #ff0000;
+  border-radius: 50%;
+  cursor: pointer;
+
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Active state */
+.volume-slider:active::-webkit-slider-thumb {
+  background: #fffff0; /* Change thumb color when active */
+}
+
+.volume-slider:active::-moz-range-thumb {
+  background: #ff6347;
+}
+
+.volume-slider:active::-ms-thumb {
+  background: #ff6347;
+}
+/* styles.css */
+.white-svg path {
+  fill: white !important; /* Use !important to override inline styles */
+}

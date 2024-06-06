@@ -1,23 +1,24 @@
-import { useAudio } from '@/providers/AudioProvider'
 import { Song } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import SongInteraction from './SongInteraction'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { songDetail } from '@/lib/jotai'
+import { useSetAtom } from 'jotai'
+import { currentAudioAtom, songDetail } from '@/lib/jotai'
 
 export const SongCard = ({ song }: { song: Song }) => {
-  const { setAudio } = useAudio();
+  const setCurrentAudio = useSetAtom(currentAudioAtom)
   const setSongDetail = useSetAtom(songDetail)
   const handlePlay = () => {
-    setAudio({
+
+    setCurrentAudio({
       title: song.title,
       audioUrl: song.audio_url,
       imageUrl: song.image_url,
       author: song.tags,
       songId: song.id,
     });
+
     setSongDetail(song)
   };
   return (
@@ -32,7 +33,7 @@ export const SongCard = ({ song }: { song: Song }) => {
           </button>
         </div>
         <div className='flex flex-col xl:flex-row flex-1 justify-between'>
-          <div className='ml-3 flex flex-col gap-0 flex-1 grow-0 min-w-[200px] justify-start'>
+          <div className='ml-3 flex flex-col gap-0 flex-1 grow-0 min-w-fit justify-start'>
             <div className='max-w-[300px] flex flex-row gap-2 '>
               <p className='truncate whitespace-nowrap max-w-[600px] text-xs font-sans tracking-normal font-bold'><Link href="/song/id">{song.title}</Link></p>
               <div className='flex flex-row gap-2'>

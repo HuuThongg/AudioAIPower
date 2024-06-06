@@ -16,7 +16,7 @@ export const sidebarLinks = [
     label: "Create Podcast",
   },
   {
-    imgURL: "/icons/microphone.svg",
+    imgURL: "/icons/musical-note.svg",
     route: "/create-music",
     label: "Create Music",
   }
