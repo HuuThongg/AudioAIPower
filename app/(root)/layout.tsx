@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <div className="relative flex flex-col h-full">
       <Toaster />
-      <div className="relative flex flex-row flex-1 bg-black-3 w-full overflow-y-auto h-full">
+      <div className="relative flex flex-row flex-1 bg-main-color w-full overflow-y-auto h-full">
         <LeftSidebar />
         {/*main*/}
         <div className="relative flex flex-col flex-1 overflow-y-auto ">

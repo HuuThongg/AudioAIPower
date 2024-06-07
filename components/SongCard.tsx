@@ -27,7 +27,8 @@ export const SongCard = ({ song }: { song: Song }) => {
     >
       <div className='flex flex-row flex-1 opacity-100 w-full '>
         <div className='aspect-square w-[60px] h-[60px] relative shrink-0'>
-          <Image src={song.image_url} fill alt="song image" className='flex-shrink-0 aspect-square h-full' />
+          <Image src={song.image_url} width={60}
+            height={60} alt="song image" className='flex-shrink-0 aspect-square h-full' />
           <button className='inline-flex appearance-none items-center justify-center select-none whitespace-nowrap outline-transparent outline-2 outline-offset-2 tran h-[60px] min-w-12 absolute w-[60px]  transition-opacity ease-linear duration-300 group-hover/item:opacity-100 top-0 left-1/2 -translate-x-1/2 translate-y-0 opacity-0 hover:opacity-30  hover:bg-imgLayer'>
             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" aria-hidden="true" focusable="false" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>
           </button>

@@ -26,7 +26,7 @@ export default function SongDetail() {
         </div>
         <div className='flex justify-start items-center'><h2 className='leading-5 font-semibold truncate mt-4 px-4'>{song?.title}</h2></div>
         <p className='px-4 flex font-semibold items-center select-none'>
-          <Image src="/icons/profile.svg" alt="profile" className='w-3 h-3 mr-1' width={12} height={12} />
+          <Image src="/icons/profile.svg" alt="profile" className='w-auto h-auto mr-1' width={12} height={12} />
           <Link href="/author" className='truncate outline outline-offset-2 outline-transparent text-[14px] font-semibold'>Author name</Link>
         </p>
         <div className='flex flex-wrap gap-0 max-w-full'>

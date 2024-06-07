@@ -319,3 +319,15 @@ html {
 .white-svg path {
   fill: white !important; /* Use !important to override inline styles */
 }
+
+.bg-cardd {
+  background: linear-gradient(
+      0deg,
+      rgba(251, 211, 141, 0) 0%,
+      rgba(251, 211, 141, 0.2) 200%
+    ),
+    rgb(39, 38, 38);
+}
+.bg-main-color {
+  background: linear-gradient(180deg, #2f2e2e 0.22%, #131313 35.3%);
+}

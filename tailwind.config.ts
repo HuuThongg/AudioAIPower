@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        'card-hover': "linear-gradient(135deg, rgba(251, 211, 141, 0.1) 0%, rgba(255, 255, 255, 0.2) 200%)",
         white: {
           1: "#FFFFFF",
           2: "rgba(255, 255, 255, 0.72)",
@@ -40,9 +41,14 @@ const config = {
         gray: {
           1: "#71788B",
         },
+        yellow: {
+          1: "rgb(251, 211, 141)",
+          2: "#5d5242",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        "main-bg": "linear-gradient(180deg, #2F2E2E 0.22%, #131313 35.3%)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
 

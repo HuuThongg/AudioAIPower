@@ -7,8 +7,8 @@ import { formatTime } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
 
 import { Progress } from "./ui/progress";
-import { currentAudioAtom, playlistAtom } from "@/lib/jotai";
-import { useAtom, useAtomValue } from "jotai";
+import { currentAudioAtom, playlistAtom, songDetail } from "@/lib/jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 const SongPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -19,6 +19,7 @@ const SongPlayer = () => {
   const [volume, setVolume] = useState(0.5);
   const [audio, setAudio] = useAtom(currentAudioAtom)
   const playListData = useAtomValue(playlistAtom)
+  const setSongDetail = useSetAtom(songDetail)
   const getNextSong = () => {
     const currentIndex = playListData.findIndex(song => song.audio_url === audio?.audioUrl)
     const nextIndex = (currentIndex + 1) % playListData.length
@@ -44,6 +45,19 @@ const SongPlayer = () => {
     })
   }
   const togglePlayPause = () => {
+    if (!audio) {
+      const songToPlay = playListData[0]
+      setAudio({
+        audioUrl: songToPlay.audio_url,
+        title: songToPlay.title,
+        author: songToPlay.tags,
+        imageUrl: songToPlay.image_url,
+        songId: songToPlay.id
+      })
+      setSongDetail(songToPlay)
+
+      return
+    }
     if (audioRef.current?.paused) {
       audioRef.current?.play();
       setIsPlaying(true);
@@ -52,7 +66,36 @@ const SongPlayer = () => {
       setIsPlaying(false);
     }
   };
-
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audio?.audioUrl) {
+      if (audioElement) {
+        // Pause current playback if already playing
+        if (!audioElement.paused) {
+          audioElement.pause();
+        }
+        // Set the new audio source
+        audioElement.src = audio.audioUrl;
+        // Load the new audio source
+        audioElement.load();
+        // Wait for the canplaythrough event to ensure the audio is fully loaded
+        audioElement.addEventListener('canplaythrough', () => {
+          // Play the audio once it's fully loaded
+          audioElement.play().then(() => {
+            setIsPlaying(true);
+          }).catch(error => {
+            console.error('Error occurred while playing audio:', error);
+          });
+        }, { once: true });
+      }
+    } else {
+      // Pause audio playback if audio source is removed
+      if (!audioElement?.paused) {
+        audioElement?.pause();
+        setIsPlaying(false);
+      }
+    }
+  }, [audio]);
   const toggleMute = () => {
     if (audioRef.current) {
       audioRef.current.muted = !isMuted;
@@ -101,13 +144,19 @@ const SongPlayer = () => {
     const audioElement = audioRef.current;
     if (audio?.audioUrl) {
       if (audioElement) {
-        audioElement.play().then(() => {
-          setIsPlaying(true);
-        });
+        if (audioElement.paused) {
+
+          audioElement.play().then(() => {
+            setIsPlaying(true);
+          });
+        }
       }
     } else {
-      audioElement?.pause();
-      setIsPlaying(true);
+      if (!audioElement?.paused) {
+
+        audioElement?.pause();
+        setIsPlaying(false);
+      }
     }
   }, [audio]);
   const handleLoadedMetadata = () => {
@@ -195,6 +244,9 @@ const SongPlayer = () => {
             </div>
           </div>
         ) : null}
+        <div className="flex flex-row">
+
+        </div>
         {!audio && (
 
           <div className={cn("flex flex-row shrink-0 grow-0 basis-[240px]")}></div>
@@ -218,6 +270,7 @@ const SongPlayer = () => {
                 <Image
                   src={isPlaying ? "/icons/Pause.svg" : "/icons/Play.svg"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   alt="play"
                   onClick={togglePlayPause}
                 />

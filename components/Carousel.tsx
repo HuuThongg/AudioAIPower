@@ -49,6 +49,8 @@ const EmblaCarousel = ({ fansLikeDetail }: CarouselProps) => {
               src={item.imageUrl}
               alt="card"
               fill
+              priority={false}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="absolute size-full rounded-xl border-none"
             />
             <div className="glassmorphism-black relative z-10 flex flex-col rounded-b-xl p-4">

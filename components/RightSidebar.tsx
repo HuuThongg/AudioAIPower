@@ -51,7 +51,9 @@ const RightSidebar = () => {
                     alt={podcaster.name}
                     width={44}
                     height={44}
-                    className="aspect-square rounded-lg"
+                    priority={true}
+
+                    className="rounded-lg"
                   />
                   <h2 className="text-14 font-semibold text-white-1">{podcaster.name}</h2>
                 </figure>
