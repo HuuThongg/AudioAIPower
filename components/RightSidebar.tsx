@@ -12,11 +12,10 @@ import { usePathname, useRouter } from 'next/navigation';
 
 const RightSidebar = () => {
   const pathname = usePathname();
-
-  if (pathname.includes("/create-music")) return null;
+  const router = useRouter();
   const { user } = useUser();
   const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
-  const router = useRouter();
+  if (pathname.includes("/create-music")) return null;
 
 
   return (

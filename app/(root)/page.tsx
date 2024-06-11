@@ -10,13 +10,12 @@ import { PlayLists } from '@/components/PlayLists';
 
 const Home = () => {
   const trendingPodcasts = useQuery(api.podcasts.getTrendingPodcasts);
-  console.log("trendingPodcasts:", trendingPodcasts)
   if (!trendingPodcasts) return <LoaderSpinner />
   return (
     <div className="mt-9 bg-main-bg flex flex-col gap-9 overflow-x-hidden overflow-y-auto custom-scrollbar  px-5 xl:px-6">
       <section className='flex flex-col gap-5'>
         <h1 className="text-20 font-bold text-white-1">Trending Podcasts</h1>
-        <div className="grid gap-0 grid-rows-[min-content] grid-cols-[repeat(auto-fill,_minmax(190px,_1fr))]">
+        <div className="grid gap-0 grid-rows-[min-content] grid-cols-[repeat(auto-fill,_minmax(210px,_1fr))]">
           {trendingPodcasts?.map(({ _id, podcastTitle, podcastDescription, imageUrl }) => (
             <PodcastCard
               key={_id}

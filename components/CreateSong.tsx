@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,6 +20,7 @@ import { useState } from "react"
 import { useToast } from "./ui/use-toast"
 import { Loader } from "lucide-react"
 import axios from "axios"
+import { getBaseUrl } from "@/lib/utils"
 
 const formSchema = z.object({
   prompt: z.string().min(10).refine(
@@ -71,7 +71,7 @@ export default function CreateSong() {
       tags: ""
     }
   })
-  const baseUrl = 'http://localhost:3000'; // Assuming backend API is running on this port
+  const baseUrl = getBaseUrl() // Assuming backend API is running on this port
   async function makeRandomLyrics(lyrics: string | undefined) {
     try {
       setIsGeneratingLyrics(true)
@@ -128,7 +128,6 @@ export default function CreateSong() {
         }
       });
 
-      console.log(response.data);
       toast({ title: 'Song created' })
       setIsSubmitting(false)
     } catch (error) {
@@ -142,7 +141,6 @@ export default function CreateSong() {
     }
   }
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("submit")
     try {
       setIsSubmitting(true)
       if (data.prompt === "") {
@@ -164,7 +162,6 @@ export default function CreateSong() {
         }
       });
 
-      console.log(response.data);
       toast({ title: 'Song created' })
       setIsSubmitting(false)
     } catch (error) {
@@ -192,7 +189,7 @@ export default function CreateSong() {
   };
 
   return (
-    <div className='hidden md:flex flex-col border-r border-r-zinc-700 min-w-[300px] overflow-y-auto h-full md:min-w-[360px] flex-1 max-w-[300px]  md:max-w-[360px] custom-scrollbar '>
+    <div className='hidden md:flex flex-col border-r border-r-zinc-700 min-w-[200px] overflow-y-auto h-full w-[200px] lg:min-w-[300px] flex-1 max-w-[300px]  lg:max-w-[300px] custom-scrollbar '>
       {/*custome mode */}
       <div className="flex items-center px-2 space-x-2 pt-4">
         <Switch checked={isCustomeMode} onCheckedChange={() =>

@@ -17,7 +17,7 @@ const PodcastCard = ({
   }
 
   return (
-    <div className="cursor-pointer p-3 rounded-md hover:bg-zinc-800  shadow-md" onClick={handleViews}>
+    <div className="cursor-pointer p-3 rounded-md hover:bg-zinc-800   shadow-md" onClick={handleViews}>
       <figure className="flex flex-col gap-3 w-full group">
         <div className='relative overflow-hidden'>
           <Image

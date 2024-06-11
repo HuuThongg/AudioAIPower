@@ -6,6 +6,7 @@ import { useAtomValue } from "jotai"
 import { currentAudioAtom, songDetail } from "@/lib/jotai"
 import { usePathname } from "next/navigation"
 import RightSidebar from "./RightSidebar"
+import { formatDate } from "@/lib/formatDate"
 export default function SongDetail() {
   const song = useAtomValue(songDetail)
   const audio = useAtomValue(currentAudioAtom)
@@ -33,7 +34,7 @@ export default function SongDetail() {
           <p className='px-4 font-normal whitespace-pre-wrap'>{song?.gpt_description_prompt} </p>
         </div>
         <p className='flex px-4 mb-4 text-xs text-[rgba(255,255,255,0.7)] '>
-          {song?.created_at}
+          {song?.created_at && formatDate(song?.created_at)}
         </p>
         <div className='flex px-4'>
           <SongInteraction />

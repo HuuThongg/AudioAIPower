@@ -1,5 +1,6 @@
+import { getBaseUrl } from '@/lib/utils';
 import axios from 'axios';
-const baseUrl = 'http://localhost:3000'; // Assuming backend API is running on this port
+const baseUrl = getBaseUrl(); // Assuming backend API is running on this port
 
 async function getQuotaInformation() {
   const url = `${baseUrl}/api/get_limit`;
@@ -9,7 +10,6 @@ async function getQuotaInformation() {
 export default async function Test() {
   try {
     const response = await getQuotaInformation()
-    console.log('API response:', response); // Log the actual data received
 
     return (
       <div className="text-white-1 z-50 pl-96">

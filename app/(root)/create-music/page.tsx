@@ -4,13 +4,13 @@ import { SongCard } from '@/components/SongCard'
 import SongDetail from '@/components/SongDetail'
 import { useToast } from '@/components/ui/use-toast'
 import { playlistAtom } from '@/lib/jotai'
-import { cn } from '@/lib/utils'
+import { cn, getBaseUrl } from '@/lib/utils'
 import { Song } from '@/types'
 import axios from 'axios'
 import { useSetAtom } from 'jotai'
 import React from 'react'
 
-const baseUrl = 'http://localhost:3000'; // Assuming backend API is running on this port
+const baseUrl = getBaseUrl() // Assuming backend API is running on this port
 async function getSongsData(): Promise<Song[] | null> {
   try {
     const url = `${baseUrl}/api/get`;
@@ -43,7 +43,7 @@ export default function CreateMusic() {
     };
 
     fetchData();
-  }, []); // Re-run useEffect on songID change
+  }, [toast, setPlaylist]); // Re-run useEffect on songID change
 
   if (songs === null) {
     return <p>Loading songs...</p>;

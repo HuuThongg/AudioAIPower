@@ -22,7 +22,7 @@ const Discover = ({ searchParams: { search } }: { searchParams: { search: string
         {podcastsData ? (
           <>
             {podcastsData.length > 0 ? (
-              <div className="podcast_grid">
+              <div className="grid gap-0 grid-rows-[min-content] grid-cols-[repeat(auto-fill,_minmax(210px,_1fr))]">
                 {podcastsData?.map(({ _id, podcastTitle, podcastDescription, imageUrl }) => (
                   <PodcastCard
                     key={_id}

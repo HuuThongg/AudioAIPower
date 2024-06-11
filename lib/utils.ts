@@ -33,3 +33,6 @@ export const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 }
+export const getBaseUrl = (): string => {
+  return process.env.BASE_URL || 'http://localhost:3000';
+};

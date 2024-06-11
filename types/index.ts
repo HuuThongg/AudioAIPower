@@ -92,6 +92,7 @@ export interface PodcastDetailPlayerProps {
   authorId: string;
 }
 
+
 export interface AudioProps {
   title: string;
   audioUrl: string;
@@ -142,4 +143,30 @@ export interface Song {
   prompt: string;
   type: string;
   tags: string;
+}
+
+export type ShowcaseType = {
+  id: number;
+  songName: string;
+  author: string;
+  tags: string;
+  audio: string;
+  imageUrl: string;
+}
+export type TrendingSongType = {
+  id: number;
+  author: string;
+  title: string;
+  image_url: string;
+  lyric: string;
+  audio_url: string;
+  created_at: string;
+  tags: string;
+};
+
+export type PlaylistsType = {
+  id: number;
+  playlistName: string;
+  author: string;
+  image_url: string;
 }
