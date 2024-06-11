@@ -20,6 +20,7 @@ async function getSongsData(): Promise<Song[] | null> {
       },
     });
 
+    console.log("song fettch ", response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching songs:', error);
