@@ -21,6 +21,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn1.suno.ai",
       },
+
+      {
+        protocol: "https",
+        hostname: "cdn2.suno.ai",
+      },
     ],
   },
 };
