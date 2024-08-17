@@ -29,7 +29,7 @@ export const sleep = (x: number, y?: number): Promise<void> => {
 
 
 export const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://audio-ai-power.vercel.app', // Replace with your frontend origin', // Replace with your frontend origin
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 }
